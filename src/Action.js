@@ -4,7 +4,7 @@ export default class Action {
     this.type = type;
   }
 
-  static wrapped(type, extra) {
+  static wrapper(type, extra) {
     return function(wrapped) {
       return Object.assign(new Action(type), {wrapped}, extra); 
     }

@@ -1,7 +1,7 @@
 {
   "name": "react-elm",
   "main": "./lib/react-elm.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Elm reactive programming model for ReactJS",
   "author": "Marrony Neris",
   "license": "ISC",
