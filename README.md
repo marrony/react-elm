@@ -49,7 +49,7 @@ ReactDOM.render(
 
 Also this pattern can be reused infinitely in order to aggragate components.
 
-Here an example aggragating two Counter components
+Here an example aggregating two Counter components
 
 `TwoCounters.js`
 
@@ -68,8 +68,9 @@ export class Model {
 export function view(props) {
   return (
     <div>
-      <Counter.view address={ Address.forwardTo(props.address, Action.wrapped("COUNTER1")) } model={ props.model.counter1 } />
-      <Counter.view address={ Address.forwardTo(props.address, Action.wrapped("COUNTER2")) } model={ props.model.counter2 } />
+      <Counter.view address={ Address.forwardTo(props.address, Action.wrapper("COUNTER1")) } model={ props.model.counter1 } />
+      <Counter.view address={ Address.forwardTo(props.address, Action.wrapper("COUNTER2")) } model={ props.model.counter2 } />
+      <button onClick={ (e) => Address.send(props.address, new Action("RESET")) }>Reset</button>
     </div>
   );
 }
@@ -81,6 +82,9 @@ export function update(action, model) {
 
     case "COUNTER2":
       return new Model(model.counter1, Counter.update(action.wrapped, model.counter2));
+
+    case "RESET":
+      return new Model(0, 0);
   }
   return model;
 }
@@ -95,7 +99,7 @@ import { App } from 'react-elm'
 import * as TwoCounters from './TwoCounters';
 
 ReactDOM.render(
-    <App model={new TwoCounters.Model(0, 0)} update={TwoCounters.update} view={TwoCounters.view} />,
+  <App model={new TwoCounters.Model(0, 0)} update={TwoCounters.update} view={TwoCounters.view} />,
   document.getElementById('container')
 );
 ````
