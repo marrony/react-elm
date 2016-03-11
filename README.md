@@ -104,3 +104,64 @@ ReactDOM.render(
 );
 ````
 
+Now a more fancy example. Here we are going to create an dynamic list of Counters.
+
+`ListCounters.js`
+
+```javascript
+import React from 'react'
+import { Address, Action } from 'react-elm'
+import * as Counter from './Counter';
+
+export class Model {
+  constructor(counters) {
+    this.counters = counters;
+  }
+}
+
+export function view(props) {
+  var counters = props.model.counters.map(function(item, index) {
+      return (<Counter.view key={ index } address={ Address.forwardTo(props.address, Action.wrapper("CHILD", {index})) } model={ item } />)
+  });
+
+  return (
+    <div>
+      <button onClick={ (e) => Address.send(props.address, new Action("ADD")) }>Add</button>
+      <div>{counters}</div>
+    </div>
+  );
+}
+
+export function update(action, model) {
+  switch(action.type) {
+    case "CHILD":
+      var counters = model.counters.map(function(item, index) {
+        if(index == action.index)
+          return Counter.update(action.wrapped, item);
+        return item;
+      });
+
+      return new Model(counters);
+
+    case "ADD":
+      return new Model(model.counters.concat([0]));
+  }
+
+  return model;
+}
+```
+
+`index.js`
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { App } from 'react-elm'
+import * as ListCounters from './ListCounters';
+
+ReactDOM.render(
+  <App model={new ListCounters.Model([0, 0, 0, 0])} update={ListCounters.update} view={ListCounters.view} />,
+  document.getElementById('container')
+);
+```
+

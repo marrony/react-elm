@@ -1,11 +1,13 @@
 {
   "name": "react-elm",
   "main": "./lib/react-elm.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Elm reactive programming model for ReactJS",
   "author": "Marrony Neris",
   "license": "ISC",
   "scripts": {
+    "build": "npm run clean && npm run build:lib && npm run build:umd && npm run build:umd:min",
+    "clean": "rm -rf lib/ dist/",
     "build:lib": "babel src --out-dir lib",
     "build:umd": "cross-env NODE_ENV=development webpack src/react-elm.js dist/react-elm.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack --optimize-dedupe src/react-elm.js dist/react-elm.min.js"
