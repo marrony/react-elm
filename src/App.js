@@ -9,9 +9,9 @@ export default class App extends React.Component {
       model: props.model
     };
 
-    var self = this;
+    let self = this;
     this.address = new Address(function(message) {
-      var newModel = self.props.update(message, self.state.model);
+      let newModel = self.props.update(message, self.state.model);
 
       self.update(message, newModel, self.state.model);
     });
@@ -22,7 +22,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    var props = {
+    let props = {
       address: this.address,
       model: this.state.model
     };
